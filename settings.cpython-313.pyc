@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บริการซักรีด | Smart Laundry Full Menu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style> 
+
+body {
+    background: linear-gradient(135deg, #f5f9ff 0%, #ffffff 100%);
+    font-family: 'Kanit', sans-serif;
+    color: #4a5568;
+    min-height: 100vh;
+}
+
+/* ตกแต่ง Navbar ให้ดูละมุน */
+.navbar-custom {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+/* เอฟเฟกต์ตัวอักษรโลโก้ให้ดูมีออร่า */
+.logo-text {
+    font-size: 1.4rem;
+    background: linear-gradient(135deg, #007bff, #00d2ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: 0.3s;
+}
+
+/* ตกแต่ง User Badge ให้ดูเป็น Card เล็กๆ */
+.user-info-badge {
+    background: rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid #e1e8f0 !important;
+    transition: 0.3s;
+}
+
+.user-info-badge:hover {
+    background: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* ตกแต่งแต้มสะสมให้ดูน่าสะสม (โทนสีทองนุ่มๆ) */
+.points-badge {
+    background: linear-gradient(135deg, #fff9f0 0%, #fff1e0 100%) !important;
+    border: 1px solid #ffe0b3 !important;
+    color: #b45309 !important;
+    box-shadow: 0 2px 5px rgba(180, 83, 9, 0.05);
+}
+
+/* ปุ่ม Logout ให้ดูเบาๆ ไม่ดุเกินไป */
+.btn-logout {
+    border: 1.5px solid #ff4d4d !important;
+    color: #ff4d4d !important;
+    background: transparent;
+}
+
+.btn-logout:hover {
+    background: #ff4d4d !important;
+    color: white !important;
+}
+
+/* จัดระเบียบหน้าเลือกบริการ (Service Layout) */
+.service-layout-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ตกแต่ง Card บริการเดิมให้ดูนุ่มนวล */
+.service-card-box {
+    background: #ffffff;
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 123, 255, 0.05);
+    border: 1px solid #eef2f7;
+}
+
+/* ตกแต่งหัวข้อหมวดหมู่ */
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2c3e50;
+    padding-bottom: 8px;
+    margin-top: 25px;
+    border-bottom: 2px solid #eef2f7;
+    display: flex;
+    align-items: center;
+}
+
+.section-title::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 20px;
+    background: #007bff;
+    border-radius: 10px;
+    margin-right: 12px;
+}
+
+/* ตกแต่งการ์ดรายการ (Service Card) */
+.service-card {
+    border: 1px solid #f0f3f7 !important;
+    border-radius: 15px !important;
+    background: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    border-color: #007bff !important;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.08);
+}
+
+.service-card h6 {
+    color: #334e68;
+    margin-bottom: 2px;
+}
+
+.service-card .text-primary {
+    font-weight: 600;
+    color: #007bff !important;
+}
+
+/* ปรับแต่งช่องใส่จำนวนตัวเลข */
+.input-qty {
+    border: 2px solid #edf2f7 !important;
+    border-radius: 10px !important;
+    font-weight: bold;
+    color: #007bff;
+    background-color: #f8fbff !important;
+}
+
+.input-qty:focus {
+    border-color: #007bff !important;
+    box-shadow: none !important;
+}
+
+/* ตกแต่งกล่องสรุปรายการหลัก */
+.summary-panel {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid #e1e9f1;
+    position: sticky;
+    top: 20px;
+    box-shadow: 0 10px 30px rgba(0, 123, 255, 0.05);
+}
+
+/* ตกแต่งรายการที่เลือกในตะกร้า */
+#cart-list {
+    background: #f8fbff;
+    border-radius: 15px;
+    padding: 15px;
+    min-height: 60px;
+    border: 1px dashed #cbdcf0;
+    line-height: 1.6;
+}
+
+/* ปรับแต่งเส้นคั่น */
+hr {
+    border-top: 2px dashed #eee;
+    opacity: 0.5;
+    margin: 20px 0;
+}
+
+/* ส่วนของ Input วันที่และเวลา */
+.summary-panel .form-label {
+    font-size: 0.85rem;
+    color: #5a6a85;
+    margin-bottom: 8px;
+}
+
+.summary-panel .form-control, 
+.summary-panel .form-select {
+    border: 1px solid #e1e8f0;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.summary-panel .form-control:focus, 
+.summary-panel .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* ปุ่มดำเนินการชำระเงิน (เผื่อพี่มีปุ่มข้างล่าง) */
+.btn-checkout {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border: none;
+    border-radius: 50px;
+    padding: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* ล็อกตำแหน่ง Sidebar เมื่อเลื่อนจอ */
+@media (min-width: 992px) {
+    .sticky-sidebar {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+        top: 100px; /* ระยะที่ต้องการให้ห่างจากขอบบน */
+        z-index: 100;
+    }
+
+    /* ลบค่า Grid เก่าที่เคยเขียนไว้ (ถ้ายังมีอยู่) */
+    .main-wrapper {
+        display: block !important; /* ยกเลิก Grid เดิมที่อาจไปตีกับ Bootstrap */
+    }
+}
+
+.summary-panel {
+    background: white;
+    border-radius: 24px;
+    padding: 25px;
+}
+
+/* ตกแต่งแถบสรุปรายการ (Sticky Sidebar) */
+.order-sidebar {
+    background: #ffffff;
+    border-radius: 25px;
+    padding: 25px;
+    height: fit-content;
+    position: sticky;
+    top: 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ตกแต่งกล่องซักด่วนให้ดูพรีเมียม */
+.express-box {
+    background: #ffffff; /* พื้นหลังขาวสะอาด */
+    border: 2px solid #e1f0ff; /* ขอบฟ้าอ่อน */
+    border-radius: 20px;
+    padding: 20px 25px;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.05);
+}
+
+/* เมื่อมีการกดติ๊กถูก ให้กล่องเปลี่ยนสีเล็กน้อย */
+.express-box:has(.form-check-input:checked) {
+    background: #f0f7ff;
+    border-color: #007bff;
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.1);
+}
+
+/* ตกแต่งไอคอนสายฟ้า */
+.express-icon-circle {
+    width: 45px;
+    height: 45px;
+    background: #fff9e6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+/* ปรับแต่งปุ่ม Toggle (Switch) ให้ดูเด่นขึ้น */
+.form-check-input:checked {
+    background-color: #ffc107 !important; /* สีเหลืองทองเวลาเปิดซักด่วน */
+    border-color: #ffc107 !important;
+}
+
+/* 1. เปลี่ยนจาก #receiptSection เป็น .hidden */
+.hidden {
+    display: none !important;
+}
+
+/* 2. ส่วนของใบเสร็จ (ลบ display: none ออกจากตรงนี้) */
+#receiptSection {
+    /* ไม่ต้องใส่ display: none ตรงนี้แล้วค่ะ */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* ใบเสร็จดีไซน์เรียบหรู */
+.receipt-paper {
+    max-width: 450px;
+    margin: 50px auto;
+    background: #ffffff;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    overflow: hidden;
+}
+    </style>
+</head>
+<body>
+
+<nav class="navbar-custom mb-0 shadow-sm" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0,123,255,0.1); padding: 12px 0;">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a href="/" class="text-decoration-none d-flex align-items-center">
+            <div class="logo-icon me-2" style="color: #007bff; font-size: 1.5rem;"><i class="fa-solid fa-soap"></i></div>
+            <h4 class="mb-0 fw-bold logo-text" style="color: #007bff; letter-spacing: 0.5px;">Smart Laundry</h4>
+        </a>
+
+        <div class="d-flex align-items-center gap-2 gap-md-3">
+            <div class="points-badge px-3 py-1 rounded-pill d-flex align-items-center" style="background: linear-gradient(135deg, #fff9e6 0%, #fff2cc 100%); border: 1px solid #ffe599;">
+                <i class="fa-solid fa-crown me-2" style="font-size: 0.8rem; color: #f1c40f;"></i>
+                <span class="fw-bold" style="font-size: 0.85rem; color: #856404;">{{ user_points }} Points</span>
+            </div>
+
+            <div class="user-info-badge d-none d-md-flex align-items-center px-2 py-1 rounded-pill" style="background: #f0f7ff; border: 1px solid #cfe2ff;">
+                <div class="user-avatar-small me-2" style="width: 28px; height: 28px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                    <i class="fa-solid fa-user" style="font-size: 0.75rem;"></i>
+                </div>
+                <div class="text-start me-2">
+                    <p class="mb-0 fw-bold text-dark" style="font-size: 0.85rem; line-height: 1;">{{ customer.cus_name }}</p>
+                    <small class="text-muted" style="font-size: 0.65rem;">ID: {{ customer.cus_id }}</small>
+                </div>
+            </div>
+
+            <a href="/logout/" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold" style="font-size: 0.8rem;" onclick="return confirm('ยืนยันการออกจากระบบใช่ไหมคะ?')">
+                <i class="fa-solid fa-power-off me-1"></i> Logout
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="laundry-banner-section" style="background: linear-gradient(rgba(0,123,255,0.2), rgba(0,0,0,0.5)), url('https://vartex.nl/wp-content/uploads/SMART-LAUNDRY-COVER.jpg'); background-size: cover; background-position: center; height: 400px; display: flex; align-items: center; justify-content: center; text-align: center; border-bottom: 5px solid #007bff;">
+    <div class="banner-content">
+        <h1 style="color: white; font-weight: bold; font-size: 3.5rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); margin-bottom: 10px;">.</h1>
+        <p style="color: #fff; font-size: 1.2rem; font-weight: 300; letter-spacing: 2px; text-transform: uppercase;">ดูแลผ้าทุกชิ้นของคุณด้วยความใส่ใจ</p>
+        <div class="mt-4">
+            <a href="#serviceSection" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-lg" style="background: #007bff; border: none; font-size: 1.25rem;">เลือกรายการส่งซัก <i class="fa-solid fa-arrow-down ms-2"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="py-4" style="background: #f8f9fa;">
+    <div class="container text-center">
+        <p class="text-muted mb-0">กรุณาเลือกประเภทผ้าและจำนวนที่ต้องการส่งซักด้านล่างนี้ค่ะ</p>
+    </div>
+</div>
+
+<div class="container mb-5" id="serviceSection">
+    <div class="row g-4 align-items-start">
+        
+        <div class="col-lg-8">
+            <div class="express-box d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded-4 border">
+                <div>
+                    <h6 class="fw-bold mb-1 text-dark"><i class="fa-solid fa-bolt me-2 text-warning"></i>บริการซักด่วน (Express)</h6>
+                    <small class="text-muted">บวกเพิ่ม 20% จากราคาปกติ (รับผ้าภายใน 24 ชม.)</small>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="expressMode" onchange="updatePrice()" style="width: 45px; height: 22px;">
+                </div>
+            </div>
+
+            <div class="service-card-box">
+                <h5 class="section-title mb-4">หมวดหมู่: ซักพับ (Wash & Fold)</h5>
+                <div class="row g-3 mb-5">
+                    <div class="col-md-6">
+                        <div class="card service-card p-3 d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex align-items-center"><div class="me-3 text-primary"><i class="fa-solid fa-shirt fs-5"></i></div>
+                            <div><h6 class="mb-0 small fw-bold">เสื้อเชิ้ต / ชุดนักศึกษา</h6><small class="text-primary">15฿ / ชิ้น</small></div></div>
+                            <input type="number" class="form-control form-control-sm w-25 text-center input-qty" id="S001" value="0" min="0" oninput="updatePrice()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card service-card p-3 d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex align-items-center"><div class="me-3 text-primary"><i class="fa-solid fa-person-half-dress fs-5"></i></div>
+                            <div><h6 class="mb-0 small fw-bold">กางเกง / กระโปรง</h6><small class="text-primary">15฿ / ชิ้น</small></div></div>
+                            <input type="number" class="form-control form-control-sm w-25 text-center input-qty" id="S002" value="0" min="0" oninput="updatePrice()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card service-card p-3 d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex align-items-center"><div class="me-3 text-primary"><i class="fa-solid fa-weight-hanging fs-5"></i></div>
+                            <div><h6 class="mb-0 small fw-bold">ผ้าทั่วไป (เหมา)</h6><small class="text-primary">40฿ / กก.</small></div></div>
+                            <input type="number" class="form-control form-control-sm w-25 text-center input-qty" id="S003" value="0" min="0" oninput="updatePrice()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card service-card p-3 d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex align-items-center"><div class="me-3 text-primary"><i class="fa-solid fa-mattress-pillow fs-5"></i></div>
+                            <div><h6 class="mb-0 small fw-bold">ผ้านวม / ผ้าห่ม</h6><small class="text-primary">60฿ / กก.</small></div></div>
+                            <input type="number" class="form-control form-control-sm w-25 text-center input-qty" id="S004" value="0" min="0" oninput="updatePrice()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card service-card p-3 d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex align-items-center"><div class="me-3 text-primary"><i class="fa-solid fa-rug fs-5"></i></div>
+                            <div><h6 class="mb-0 small fw-bold">ผ้าม่าน</h6><small class="text-primary">80฿ / กก.</small></div></div>
+                            <input type="number" class="form-control form-control-sm w-25 text-center input-qty" id="S005" value="0" min="0" oninput="updatePrice()">
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="section-title mb-4">หมวดหมู่: ซักรีด (Wash & Iron)</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card service-card p-3 d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex align-items-center"><div class="me-3 text-primary"><i class="fa-solid fa-shirt fs-5"></i></div>
+                            <div><h6 class="mb-0 small fw-bold">เสื้อเชิ้ต / ชุดนักศึกษา (รีด)</h6><small class="text-primary">25฿ / ชิ้น</small></div></div>
+                            <input type="number" class="form-control form-control-sm w-25 text-center input-qty" id="S007" value="0" min="0" oninput="updatePrice()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card service-card p-3 d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex align-items-center"><div class="me-3 text-primary"><i class="fa-solid fa-person-half-dress fs-5"></i></div>
+                            <div><h6 class="mb-0 small fw-bold">กางเกง / กระโปรง (รีด)</h6><small class="text-primary">25฿ / ชิ้น</small></div></div>
+                            <input type="number" class="form-control form-control-sm w-25 text-center input-qty" id="S008" value="0" min="0" oninput="updatePrice()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card service-card p-3 d-flex flex-row justify-content-between align-items-center shadow-sm" style="border-left: 4px solid #007bff !important;">
+                            <div class="d-flex align-items-center"><div class="me-3 text-primary"><i class="fa-solid fa-user-tie fs-5"></i></div>
+                            <div><h6 class="mb-0 small fw-bold">ชุดสูท / ชุดพิธีการ</h6><small class="text-primary">150฿ / ชุด</small></div></div>
+                            <input type="number" class="form-control form-control-sm w-25 text-center input-qty" id="S009" value="0" min="0" oninput="updatePrice()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card service-card p-3 d-flex flex-row justify-content-between align-items-center">
+                            <div class="d-flex align-items-center"><div class="me-3 text-primary"><i class="fa-solid fa-person-dress fs-5"></i></div>
+                            <div><h6 class="mb-0 small fw-bold">ชุดเดรส</h6><small class="text-primary">50฿ / ชิ้น</small></div></div>
+                            <input type="number" class="form-control form-control-sm w-25 text-center input-qty" id="S010" value="0" min="0" oninput="updatePrice()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <div class="col-lg-4 sticky-top" style="top: 100px; z-index: 10;">
+            <div class="summary-panel shadow-sm p-4 bg-white rounded-4 border">
+                <h5 class="fw-bold mb-4 border-bottom pb-2">สรุปรายการ</h5>
+                <div id="cart-list" class="small text-muted mb-4 p-3 bg-light rounded-3">ยังไม่ได้เลือกรายการ</div>
+                <div class="d-flex justify-content-between mb-2"><span>ราคาปกติ</span><span id="base-total">0.00</span> ฿</div>
+                <div class="d-flex justify-content-between mb-2 text-danger" id="express-row" style="display:none !important;">
+                    <span>ค่าซักด่วน (+20%)</span><span id="express-charge">0.00</span> ฿
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between mb-4 align-items-center">
+                    <span class="fw-bold">ยอดรวมสุทธิ</span>
+                    <h3 class="fw-bold text-primary mb-0"><span id="final-total">0</span> ฿</h3>
+                </div>
+                <div class="row g-2 mb-4">
+                    <div class="col-12 mb-2">
+                        <label class="form-label fw-bold small">วันที่นัดรับผ้า</label>
+                        <input type="date" name="pickup_date" class="form-control rounded-pill" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold small">เวลานัดรับผ้า</label>
+                        <select name="times" class="form-select rounded-pill" required>
+                            <option value="" disabled selected>เลือกช่วงเวลา...</option>
+                            <option value="09:00 - 12:00">09:00 - 12:00 (เช้า)</option>
+                            <option value="13:00 - 16:00">13:00 - 16:00 (บ่าย)</option>
+                            <option value="17:00 - 20:00">17:00 - 20:00 (เย็น)</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" 
+        class="btn btn-checkout w-100 text-white fw-bold py-3 rounded-pill" 
+        style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); border: none;"
+        data-bs-toggle="modal" 
+        data-bs-target="#paymentModal">
+    ดำเนินการชำระเงิน <i class="fa-solid fa-chevron-right ms-2"></i>
+</button>
+            </div>
+        </div> </div> </div>
+                
+
+
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; border: none;">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">เลือกช่องทางการชำระเงิน</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-4">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="card p-3 border-primary shadow-sm" style="cursor:pointer;" onclick="showReceipt('โอนเงินผ่านธนาคาร')">
+                            <i class="fa-solid fa-mobile-screen-button fa-2x text-primary mb-2"></i>
+                            <h6 class="fw-bold mb-0">โอนเงิน</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card p-3 border-success shadow-sm" style="cursor:pointer;" onclick="showReceipt('เงินสด')">
+                            <i class="fa-solid fa-money-bill-1-wave fa-2x text-success mb-2"></i>
+                            <h6 class="fw-bold mb-0">เงินสด</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="receiptSection" class="hidden py-5 receipt-animation">
+    <div class="card mx-auto shadow-lg" style="max-width: 500px; border-radius: 20px; border: 2px dashed #eee;">
+        <div class="card-body p-4 text-center"> <h4 class="fw-bold mb-0">ใบเสร็จรับเงิน</h4>
+            <small class="text-muted">Smart Laundry Service</small>
+            <div class="mt-2">
+            <span class="badge bg-light text-dark border">Order ID: <span id="rec-order-id">O015</span>
+        </div>
+            <hr>
+            
+            <div class="text-start mb-3">
+    <div class="d-flex justify-content-between mb-1 small">
+        <span>ชื่อลูกค้า:</span> <strong id="rec-name">{{ customer.cus_name }}</strong>
+    </div>
+
+    <div id="rec-date-info"></div> 
+
+    <div class="d-flex justify-content-between mb-1 small">
+        <span>วิธีชำระเงิน:</span> <strong id="rec-payment" class="text-primary">-</strong>
+    </div>
+</div>
+
+            <div id="payment-instruction" class="py-3 mb-3 bg-light rounded-3">
+                </div>
+
+            <div id="rec-items" class="py-3 small text-start border-top"></div>
+
+            <div class="border-top pt-3">
+                <div class="d-flex justify-content-between fw-bold fs-5">
+                    <span>รวมทั้งสิ้น:</span>
+                    <span class="text-primary"><span id="rec-total">0</span> ฿</span>
+                </div>
+            </div>
+            
+            <div class="mt-4 no-print">
+                <button class="btn btn-outline-primary w-100 mb-2" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> พิมพ์ใบเสร็จ
+                </button>
+                <button class="btn btn-primary w-100" onclick="location.reload()">กลับหน้าหลัก</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const prices = { 'S001': 15, 'S002': 15, 'S003': 40, 'S004': 60, 'S005': 80, 'S007': 25, 'S008': 25, 'S009': 150, 'S010': 50 };
+    const names = { 'S001': 'เสื้อเชิ้ต (พับ)', 'S002': 'กางเกง/กระโปรง (พับ)', 'S003': 'ผ้าเหมา (พับ)', 'S004': 'ผ้านวม (พับ)', 'S005': 'ผ้าม่าน (พับ)', 'S007': 'เสื้อเชิ้ต (รีด)', 'S008': 'กางเกง/กระโปรง (รีด)', 'S009': 'ชุดสูท (รีด)', 'S010': 'ชุดเดรส (รีด)' };
+
+    function updatePrice() {
+        let baseTotal = 0;
+        let html = '';
+        const isExpress = document.getElementById('expressMode').checked;
+
+        for (let id in prices) {
+            let qty = parseFloat(document.getElementById(id).value) || 0;
+            if (qty > 0) {
+                let cost = qty * prices[id];
+                baseTotal += cost;
+                html += `<div class="d-flex justify-content-between mb-1"><span>${names[id]} x ${qty}</span><span>${cost.toFixed(2)}฿</span></div>`;
+            }
+        }
+
+        let expressCharge = isExpress ? baseTotal * 0.20 : 0;
+        let finalTotal = baseTotal + expressCharge;
+
+        document.getElementById('cart-list').innerHTML = html || 'ยังไม่ได้เลือกรายการ';
+        document.getElementById('base-total').innerText = baseTotal.toFixed(2);
+        document.getElementById('express-charge').innerText = expressCharge.toFixed(2);
+        document.getElementById('final-total').innerText = finalTotal.toLocaleString();
+        document.getElementById('express-row').style.display = isExpress ? 'flex' : 'none';
+    }
+
+function showReceipt(paymentMethod) {
+    // 1. ซ่อนหน้าบริการ และปิด Modal
+    const serviceSec = document.getElementById('serviceSection');
+    if (serviceSec) serviceSec.style.display = 'none'; 
+    
+    const modalElement = document.getElementById('paymentModal');
+    const modal = bootstrap.Modal.getInstance(modalElement);
+    if (modal) modal.hide();
+    
+    // 2. แสดงหน้าใบเสร็จ
+    document.getElementById('receiptSection').classList.remove('hidden');
+
+    // 3. ดึงข้อมูลจากฟอร์ม
+    const pickupDate = document.getElementsByName('pickup_date')[0].value || 'ไม่ได้ระบุ';
+    const pickupTime = document.getElementsByName('times')[0].value || 'ไม่ได้ระบุ';
+    const finalTotalRaw = document.getElementById('final-total').innerText;
+    const finalTotalNum = finalTotalRaw.replace(/,/g, ''); 
+    const now = new Date();
+    const timestamp = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');
+
+    let deliveryType = "ปกติ";
+    const cartList = document.getElementById('cart-list');
+    if (cartList && (cartList.innerText.includes("ด่วน") || parseFloat(finalTotalNum) > 100)) {
+        deliveryType = "ด่วน";
+    }
+
+    // 4. ✅ แก้ไข: วางข้อมูลวันที่ลงใน rec-date-info (จุดที่หายไป)
+    const dateHtml = `
+        <div class="d-flex justify-content-between mb-1 small">
+            <span>บันทึกเมื่อ:</span> <strong>${timestamp}</strong>
+        </div>
+        <div class="d-flex justify-content-between mb-1 small">
+            <span>วันที่นัดรับ:</span> <strong class="text-danger">${pickupDate}</strong>
+        </div>
+        <div class="d-flex justify-content-between mb-1 small">
+            <span>เวลานัดรับ:</span> <strong class="text-danger">${pickupTime}</strong>
+        </div>
+        <div id="res-express-area"></div>
+    `;
+
+    // ใส่ข้อมูลลงในกล่องที่พี่เตรียมไว้ใน HTML
+    const dateInfo = document.getElementById('rec-date-info');
+    if (dateInfo) {
+        dateInfo.innerHTML = dateHtml;
+    }
+
+    if (deliveryType === "ด่วน") {
+        const expressArea = document.getElementById('res-express-area');
+        if (expressArea) {
+            expressArea.innerHTML = `
+                <div class="d-flex justify-content-between small text-danger fw-bold mt-1 border-top pt-1">
+                    <span>ประเภทบริการ:</span> <span>ซักด่วน (Express)</span>
+                </div>`;
+        }
+    }
+
+    // 5. แสดงข้อมูลสินค้า ยอดรวม และวิธีชำระเงิน
+    document.getElementById('rec-payment').innerText = paymentMethod;
+    document.getElementById('rec-total').innerText = finalTotalRaw;
+    document.getElementById('rec-items').innerHTML = cartList.innerHTML;
+
+    // 6. ส่งข้อมูลไป API (อย่าลืมเช็ค URL ว่าตรงไหมนะคะ)
+    let items = [];
+    for (let id in prices) {
+        let qty = parseFloat(document.getElementById(id).value) || 0;
+        if (qty > 0) {
+            items.push({
+                'service_id': id,
+                'quantity': qty,
+                'subtotal': qty * prices[id]
+            });
+        }
+    }
+
+    // 7. ✅ ส่งข้อมูลไป API
+    fetch('/api/submit-order/', { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // เปลี่ยนจาก '{{ csrf_token }}' เป็นการดึงจาก Cookie โดยตรงค่ะ
+            'X-CSRFToken': getCookie('csrftoken') 
+        },
+        body: JSON.stringify({
+            'total_price': finalTotalNum,
+            'pickup_date': pickupDate,
+            'pickup_time': pickupTime,
+            'is_express': deliveryType,
+            'payment_method': paymentMethod,
+            'items': items 
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === 'success') {
+            document.getElementById('rec-order-id').innerText = data.order_id;
+            console.log("บันทึกสำเร็จ เลขออเดอร์:", data.order_id);
+        } else {
+            // ถ้ามันเด้งว่า "กรุณา Login" จะโชว์ตรงนี้ค่ะ
+            alert("บันทึกไม่สำเร็จ: " + data.message);
+        }
+    })
+    .catch(err => console.error("ส่งข้อมูลไม่สำเร็จ:", err));
+
+    // 7. แสดงช่องทางชำระเงิน
+    const instructionDiv = document.getElementById('payment-instruction');
+    if (paymentMethod === 'โอนเงินผ่านธนาคาร' || paymentMethod === 'โอนเงิน') {
+        instructionDiv.innerHTML = `
+            <p class="mb-2 fw-bold text-primary">สแกนเพื่อชำระเงิน</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SmartLaundry" 
+                 alt="QR Code" class="img-fluid mb-2" style="max-width: 120px;">
+            <p class="small text-muted mb-0">ธนาคารกสิกรไทย: 012-3-45678-9</p>
+        `;
+    } else {
+        instructionDiv.innerHTML = `
+            <div class="py-2">
+                <i class="fa-solid fa-store text-success mb-2"></i>
+                <h6 class="fw-bold text-success mb-1">ชำระหน้าร้าน</h6>
+                <p class="small text-muted mb-0">ตอนรับผ้าคืนนะคะ</p>
+            </div>
+        `;
+    }
+}
+
+// ฟังก์ชันสำหรับดึง CSRF Token จาก Cookie ของ Browser
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
+</body>
+</html>

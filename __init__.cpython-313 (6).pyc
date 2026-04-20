@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ | ร้านซักรีด</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            font-family: 'Prompt', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(circle at 18% 14%, rgba(255,255,255,0.36), transparent 18%),
+                        radial-gradient(circle at 76% 22%, rgba(255,255,255,0.24), transparent 22%),
+                        radial-gradient(circle at 55% 72%, rgba(255,255,255,0.2), transparent 24%);
+            animation: swayBackground 14s ease-in-out infinite;
+        }
+        .bg-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.22;
+            animation: floatIcon 11s ease-in-out infinite;
+        }
+        .bg-icon:nth-child(1) { top: 14%; left: 12%; animation-delay: 0s; }
+        .bg-icon:nth-child(2) { top: 24%; right: 16%; animation-delay: 1.5s; }
+        .bg-icon:nth-child(3) { bottom: 22%; left: 16%; animation-delay: 3s; }
+        .bg-icon:nth-child(4) { bottom: 18%; right: 12%; animation-delay: 4.5s; }
+        .bg-icon:nth-child(5) { top: 48%; left: 50%; animation-delay: 6s; }
+        .bg-icon:nth-child(6) { top: 42%; right: 40%; animation-delay: 7.5s; }
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.18; }
+            50% { transform: translateY(-10px) rotate(-6deg); opacity: 0.35; }
+        }
+        .trail-dot {
+            position: absolute;
+            pointer-events: none;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 50%;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            animation: fadeTrail 0.85s ease-out forwards;
+            filter: blur(0.35px);
+        }
+        @keyframes fadeTrail {
+            to { opacity: 0; transform: translate(-50%, -50%) scale(1.6); }
+        }
+        @keyframes swayBackground {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(8px) rotate(0.28deg); }
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .icon-header {
+            font-size: 3.5rem;
+            color: #4facfe;
+            margin-bottom: 10px;
+        }
+
+        .input-group-text {
+            background-color: transparent;
+            border-right: none;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .form-control {
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+            padding: 12px 15px 12px 0;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #dee2e6;
+        }
+
+        .input-group:focus-within {
+            box-shadow: 0 0 0 0.25rem rgba(79, 172, 254, 0.25);
+            border-radius: 10px;
+        }
+
+        .btn-login {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            color: #adb5bd;
+            font-size: 0.9rem;
+            margin: 25px 0;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .divider:not(:empty)::before { margin-right: 10px; }
+        .divider:not(:empty)::after { margin-left: 10px; }
+
+        .btn-register {
+            border-radius: 10px;
+            padding: 10px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-layer">
+        <span class="bg-icon">👕</span>
+        <span class="bg-icon">🧺</span>
+        <span class="bg-icon">🧦</span>
+        <span class="bg-icon">👗</span>
+        <span class="bg-icon">🛏️</span>
+        <span class="bg-icon">👚</span>
+    </div>
+
+<div class="login-wrapper">
+    <div class="login-box text-center">
+        <div class="icon-header">
+            <i class="fa-solid fa-jug-detergent"></i>
+        </div>
+        
+        <h4 class="mb-1 fw-bold">ร้านสะดวกซักรีด</h4>
+        <p class="text-muted mb-4 fs-6">เข้าสู่ระบบเพื่อจองคิวซักผ้าของคุณ</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags %}
+                    <div class="alert alert-{{ message.tags }} py-2 mb-3 text-start fs-6" role="alert">
+                        {% if 'success' in message.tags %}
+                            <i class="fa-solid fa-circle-check me-1"></i>
+                        {% else %}
+                            <i class="fa-solid fa-circle-exclamation me-1"></i>
+                        {% endif %}
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info py-2 mb-3 text-start fs-6" role="alert">
+                        <i class="fa-solid fa-circle-info me-1"></i> {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="input-group mb-3">
+                 <span class="input-group-text"><i class="fa-solid fa-user text-muted"></i></span>
+                 <input type="text" name="username" class="form-control" placeholder="ชื่อลูกค้า / Username" required>
+            </div>
+
+            <div class="input-group mb-3">
+                 <span class="input-group-text"><i class="fa-solid fa-lock text-muted"></i></span>
+                 <input type="password" name="password" id="loginPassword" class="form-control" placeholder="เบอร์โทรศัพท์ / รหัสผ่าน" required>
+                 <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">
+                 <i class="fa-solid fa-eye" id="toggleIcon"></i>
+                 </button>
+            </div>
+
+            <div class="d-flex justify-content-end mb-3">
+                <a href="#" class="text-decoration-none small text-primary">ลืมรหัสผ่าน?</a>
+            </div>
+
+            <button type="submit" class="btn btn-login w-100 text-white shadow-sm">
+                เข้าสู่ระบบ
+            </button>
+
+            <div class="divider">หรือ</div>
+
+            <a href="/register/" class="btn btn-outline-success btn-register w-100">
+                <i class="fa-solid fa-user-plus me-1"></i> สมัครสมาชิกใหม่
+            </a>
+        </form>
+    </div>
+</div>
+
+<script>
+    // 1. ฟังก์ชันเปิด-ปิดตา (Toggle Password)
+    function togglePassword() {
+        const passwordField = document.getElementById('loginPassword');
+        const toggleIcon = document.getElementById('toggleIcon');
+        
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text'; // เปิดตา (โชว์รหัส)
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash'); // เปลี่ยนเป็นไอคอนลูกตาขีดฆ่า
+        } else {
+            passwordField.type = 'password'; // ปิดตา (ซ่อนรหัส)
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+
+    // 2. โค้ดลูกเล่นเมาส์ (Mouse Trail)
+    const trailDelay = 120;
+    let lastTrail = 0;
+    document.addEventListener('mousemove', function(e) {
+        const now = Date.now();
+        if (now - lastTrail < trailDelay) return;
+        lastTrail = now;
+        const dot = document.createElement('span');
+        dot.className = 'trail-dot';
+        dot.style.left = e.clientX + 'px';
+        dot.style.top = e.clientY + 'px';
+        document.body.appendChild(dot);
+        setTimeout(() => {
+            if (dot.parentNode) dot.parentNode.removeChild(dot);
+        }, 850);
+    });
+</script>
+
+</body>
+</html>
